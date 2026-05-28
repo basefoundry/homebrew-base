@@ -6,7 +6,7 @@ This repository is the Homebrew tap for
 ## Install
 
 ```bash
-brew install codeforester/base/basectl
+brew install codeforester/base
 basectl setup
 basectl update-profile
 exec "$SHELL" -l
@@ -19,9 +19,9 @@ Base runtime under `~/.base.d/base/.venv`.
 
 ```bash
 brew tap codeforester/base
-brew install --build-from-source Formula/basectl.rb
-brew test basectl
-brew audit --new --formula Formula/basectl.rb
+brew install --build-from-source Formula/base.rb
+brew test codeforester/base
+brew audit --new --formula Formula/base.rb
 ```
 
 This tap currently follows Base's `master` branch. After Base starts publishing

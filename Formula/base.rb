@@ -1,4 +1,4 @@
-class Basectl < Formula
+class Base < Formula
   desc "Workspace bootstrap and project environment orchestration tool"
   homepage "https://github.com/codeforester/base"
   url "https://github.com/codeforester/base.git", branch: "master"
@@ -41,7 +41,7 @@ class Basectl < Formula
         exec "$SHELL" -l
 
       When installed through Homebrew, update Base with:
-        brew upgrade basectl
+        brew upgrade codeforester/base
     EOS
   end
 
