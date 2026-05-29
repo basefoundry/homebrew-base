@@ -25,5 +25,6 @@ brew test codeforester/base
 brew audit --new --formula Formula/base.rb
 ```
 
-This tap currently follows Base's `master` branch. After Base starts publishing
-release tarballs, the formula should switch to a versioned URL plus SHA256.
+The stable formula installs Base from a versioned release archive. The formula's
+`head` stanza remains available for local development against Base's `master`
+branch.
