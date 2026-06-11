@@ -1,9 +1,9 @@
 class Base < Formula
   desc "Workspace bootstrap and project environment orchestration tool"
   homepage "https://github.com/codeforester/base"
-  url "https://github.com/codeforester/base/archive/refs/tags/v0.3.0.tar.gz"
-  sha256 "6f9f5572442927edea8d772de3f6c0b9a8b8f8597efa05166024459bb0f019a6"
-  version "0.3.0"
+  url "https://github.com/codeforester/base/archive/refs/tags/v0.4.0.tar.gz"
+  sha256 "6ba32808bc097fe7ab9d1ba4b3b47a30889801ef6fa021e7ba409215f740dcb5"
+  version "0.4.0"
   license "MIT"
   head "https://github.com/codeforester/base.git", branch: "master"
 
