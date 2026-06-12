@@ -77,6 +77,25 @@ jobs:
         run: |
           brew bottle --json --root-url "${{ needs.metadata.outputs.root_url }}" codeforester/base/base
 
+          ruby <<'RUBY'
+          require "fileutils"
+          require "json"
+
+          Dir["*.bottle*.json"].each do |json_path|
+            JSON.parse(File.read(json_path)).each_value do |formula|
+              formula.fetch("bottle").fetch("tags").each_value do |tag|
+                remote_filename = tag.fetch("filename")
+                local_filename = tag.fetch("local_filename")
+
+                next if local_filename == remote_filename
+                next unless File.exist?(local_filename)
+
+                FileUtils.mv(local_filename, remote_filename)
+              end
+            end
+          end
+          RUBY
+
           mkdir -p bottle-output
           generated=()
           for path in *.bottle*.tar.gz *.bottle*.json; do
