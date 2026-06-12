@@ -79,7 +79,7 @@ jobs:
 
           mkdir -p bottle-output
           generated=()
-          for path in *.bottle.* *.json; do
+          for path in *.bottle*.tar.gz *.bottle*.json; do
             [[ -e "$path" ]] || continue
             generated+=("$path")
           done
