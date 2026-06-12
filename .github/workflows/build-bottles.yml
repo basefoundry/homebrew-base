@@ -107,7 +107,7 @@ jobs:
       HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
     steps:
       - name: Refuse direct master updates
-        if: ${{ github.ref_name == "master" }}
+        if: ${{ github.ref_name == 'master' }}
         shell: bash
         run: |
           echo "::error::Run this workflow from a tap release branch, not master."
