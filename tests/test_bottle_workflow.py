@@ -19,6 +19,8 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn("brew --prefix codeforester/base/base", content)
         self.assertIn('"$basectl_path" --version', content)
         self.assertIn("brew bottle --json --root-url", content)
+        self.assertIn("for path in *.bottle*.tar.gz *.bottle*.json; do", content)
+        self.assertNotIn("for path in *.bottle.* *.json; do", content)
         self.assertIn("gh release upload", content)
         self.assertIn("brew bottle --merge --write --no-commit", content)
         self.assertIn("brew --repo codeforester/base", content)
