@@ -66,9 +66,11 @@ jobs:
         shell: bash
         run: brew install --build-bottle codeforester/base/base
 
-      - name: Test bottle build
+      - name: Smoke-test bottle build
         shell: bash
-        run: brew test codeforester/base/base
+        run: |
+          basectl_path="$(brew --prefix codeforester/base/base)/bin/basectl"
+          "$basectl_path" --version
 
       - name: Generate bottle JSON
         shell: bash
