@@ -1,0 +1,194 @@
+name: Build Base Bottles
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  metadata:
+    name: Read formula metadata
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.formula.outputs.version }}
+      release_tag: ${{ steps.formula.outputs.release_tag }}
+      root_url: ${{ steps.formula.outputs.root_url }}
+    steps:
+      - name: Check out tap
+        uses: actions/checkout@v4
+
+      - name: Read Base formula version
+        id: formula
+        shell: bash
+        run: |
+          version="$(awk -F'"' '/^[[:space:]]*version "/ { print $2; exit }' Formula/base.rb)"
+          if [[ -z "$version" ]]; then
+            echo "::error::Unable to read Formula/base.rb version"
+            exit 1
+          fi
+
+          release_tag="base-v${version}"
+          root_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${release_tag}"
+
+          {
+            echo "version=${version}"
+            echo "release_tag=${release_tag}"
+            echo "root_url=${root_url}"
+          } >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build bottle on ${{ matrix.runner }}
+    needs: metadata
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15-intel
+            artifact: intel
+          - runner: macos-15
+            artifact: arm64
+    env:
+      HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
+      HOMEBREW_NO_INSTALL_CLEANUP: 1
+    steps:
+      - name: Check out tap
+        uses: actions/checkout@v4
+
+      - name: Tap local checkout
+        shell: bash
+        run: |
+          brew untap codeforester/base >/dev/null 2>&1 || true
+          brew tap codeforester/base "$GITHUB_WORKSPACE"
+
+      - name: Build bottle
+        shell: bash
+        run: brew install --build-bottle codeforester/base/base
+
+      - name: Test bottle build
+        shell: bash
+        run: brew test codeforester/base/base
+
+      - name: Generate bottle JSON
+        shell: bash
+        run: |
+          brew bottle --json --root-url "${{ needs.metadata.outputs.root_url }}" codeforester/base/base
+
+          mkdir -p bottle-output
+          generated=()
+          for path in *.bottle.* *.json; do
+            [[ -e "$path" ]] || continue
+            generated+=("$path")
+          done
+
+          if [[ ${#generated[@]} -eq 0 ]]; then
+            echo "::error::brew bottle did not produce bottle artifacts"
+            exit 1
+          fi
+
+          mv "${generated[@]}" bottle-output/
+
+      - name: Upload bottle workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: base-bottle-${{ matrix.artifact }}
+          path: bottle-output/
+          if-no-files-found: error
+
+  publish:
+    name: Publish bottle assets and update formula
+    needs:
+      - metadata
+      - build
+    runs-on: macos-15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
+    steps:
+      - name: Refuse direct master updates
+        if: ${{ github.ref_name == "master" }}
+        shell: bash
+        run: |
+          echo "::error::Run this workflow from a tap release branch, not master."
+          exit 1
+
+      - name: Check out tap branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Download bottle artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: base-bottle-*
+          path: bottles
+          merge-multiple: true
+
+      - name: Tap local checkout
+        shell: bash
+        run: |
+          brew untap codeforester/base >/dev/null 2>&1 || true
+          brew tap codeforester/base "$GITHUB_WORKSPACE"
+
+      - name: Create tap bottle release
+        shell: bash
+        run: |
+          if gh release view "${{ needs.metadata.outputs.release_tag }}" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            exit 0
+          fi
+
+          gh release create "${{ needs.metadata.outputs.release_tag }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Base Homebrew bottles ${{ needs.metadata.outputs.version }}" \
+            --notes "Homebrew bottle artifacts for Base ${{ needs.metadata.outputs.version }}."
+
+      - name: Upload bottle assets
+        shell: bash
+        run: |
+          bottle_files=()
+          while IFS= read -r path; do
+            bottle_files+=("$path")
+          done < <(find bottles -name '*.bottle.*' -type f | sort)
+
+          if [[ ${#bottle_files[@]} -eq 0 ]]; then
+            echo "::error::No bottle tarballs were downloaded"
+            exit 1
+          fi
+
+          gh release upload "${{ needs.metadata.outputs.release_tag }}" \
+            "${bottle_files[@]}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --clobber
+
+      - name: Merge bottle JSON into formula
+        shell: bash
+        run: |
+          json_files=()
+          while IFS= read -r path; do
+            json_files+=("$path")
+          done < <(find bottles -name '*.json' -type f | sort)
+
+          if [[ ${#json_files[@]} -eq 0 ]]; then
+            echo "::error::No bottle JSON files were downloaded"
+            exit 1
+          fi
+
+          brew bottle --merge --write --no-commit "${json_files[@]}"
+
+          tap_path="$(brew --repo codeforester/base)"
+          cp "$tap_path/Formula/base.rb" Formula/base.rb
+
+      - name: Commit bottle stanza
+        shell: bash
+        run: |
+          if git diff --quiet -- Formula/base.rb; then
+            echo "Formula/base.rb already contains the current bottle stanza."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Formula/base.rb
+          git commit -m "Add Base ${{ needs.metadata.outputs.version }} Homebrew bottles"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
