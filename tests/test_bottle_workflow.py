@@ -22,7 +22,7 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn("brew bottle --merge --write --no-commit", content)
         self.assertIn("brew --repo codeforester/base", content)
         self.assertIn('"$tap_path/Formula/base.rb" Formula/base.rb', content)
-        self.assertIn('github.ref_name == "master"', content)
+        self.assertIn("github.ref_name == 'master'", content)
 
     def test_readme_documents_bottle_release_flow(self) -> None:
         readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
