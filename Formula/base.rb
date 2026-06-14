@@ -7,6 +7,13 @@ class Base < Formula
   license "MIT"
   head "https://github.com/codeforester/base.git", branch: "master"
 
+  bottle do
+    root_url "https://github.com/codeforester/homebrew-base/releases/download/base-v1.0.0"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "dbdfc2f7d5c27329c39ea7791c8193760ffb248f92d65a1d17b3374c4d5d2b4b"
+    sha256 cellar: :any_skip_relocation, sequoia:       "94961a237330e28f2b455fa7121733bd71bf967091f16b3513a85c833d34c818"
+  end
+
   depends_on "bash"
   depends_on "python@3.13"
 
