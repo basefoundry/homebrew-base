@@ -65,6 +65,12 @@ class BottleWorkflowTests(unittest.TestCase):
             formula,
         )
 
+    def test_formula_revision_marks_completion_packaging_change(self) -> None:
+        formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
+
+        self.assertIn('url "https://github.com/codeforester/base/archive/refs/tags/v1.0.1.tar.gz"', formula)
+        self.assertRegex(formula, re.compile(r"^[ \t]*revision 1$", re.MULTILINE))
+
 
 if __name__ == "__main__":
     unittest.main()
