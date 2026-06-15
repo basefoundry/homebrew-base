@@ -24,7 +24,12 @@ jobs:
         run: |
           version="$(awk -F'"' '/^[[:space:]]*version "/ { print $2; exit }' Formula/base.rb)"
           if [[ -z "$version" ]]; then
-            echo "::error::Unable to read Formula/base.rb version"
+            url_version="$(sed -nE 's|^[[:space:]]*url ".*refs/tags/v([^"/]+)\.tar\.gz".*$|\1|p' Formula/base.rb | head -n 1)"
+            version="$url_version"
+          fi
+
+          if [[ -z "$version" ]]; then
+            echo "::error::Unable to read Formula/base.rb version from version line or URL"
             exit 1
           fi
 
