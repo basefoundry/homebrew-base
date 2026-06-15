@@ -4,6 +4,7 @@ class Base < Formula
   url "https://github.com/codeforester/base/archive/refs/tags/v1.0.1.tar.gz"
   sha256 "a242333a096ef2f7f4b9608be8a309b8e3ed66c849d570d9fab3fd95d3377315"
   license "AGPL-3.0-or-later"
+  revision 1
   head "https://github.com/codeforester/base.git", branch: "master"
 
   bottle do
