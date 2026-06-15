@@ -38,6 +38,8 @@ class Base < Formula
     libexec.install Dir["*"]
     bin.install_symlink libexec/"bin/basectl"
     bin.install_symlink libexec/"bin/base-wrapper"
+    bash_completion.install libexec/"lib/shell/completions/basectl_completion.sh" => "basectl"
+    zsh_completion.install libexec/"lib/shell/completions/basectl_completion.zsh" => "_basectl"
   end
 
   def caveats
@@ -54,5 +56,7 @@ class Base < Formula
 
   test do
     assert_match version.to_s, shell_output("#{bin}/basectl --version")
+    assert_path_exists bash_completion/"basectl"
+    assert_path_exists zsh_completion/"_basectl"
   end
 end

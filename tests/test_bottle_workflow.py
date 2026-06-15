@@ -53,6 +53,18 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn('url "https://github.com/codeforester/base/archive/refs/tags/v', formula)
         self.assertNotRegex(formula, re.compile(r"^[ \t]*version ", re.MULTILINE))
 
+    def test_formula_installs_shell_completions(self) -> None:
+        formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
+
+        self.assertIn(
+            'bash_completion.install libexec/"lib/shell/completions/basectl_completion.sh" => "basectl"',
+            formula,
+        )
+        self.assertIn(
+            'zsh_completion.install libexec/"lib/shell/completions/basectl_completion.zsh" => "_basectl"',
+            formula,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
