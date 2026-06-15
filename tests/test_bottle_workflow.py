@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import unittest
 from pathlib import Path
 
@@ -29,6 +30,8 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn("brew --repo codeforester/base", content)
         self.assertIn('"$tap_path/Formula/base.rb" Formula/base.rb', content)
         self.assertIn("github.ref_name == 'master'", content)
+        self.assertIn("url_version=", content)
+        self.assertIn("Unable to read Formula/base.rb version from version line or URL", content)
 
     def test_readme_documents_bottle_release_flow(self) -> None:
         readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
@@ -43,6 +46,12 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn("*.bottle*.tar.gz", ignore)
         self.assertIn("*.bottle.json", ignore)
         self.assertIn("bottle-output/", ignore)
+
+    def test_formula_omits_redundant_explicit_version(self) -> None:
+        formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
+
+        self.assertIn('url "https://github.com/codeforester/base/archive/refs/tags/v', formula)
+        self.assertNotRegex(formula, re.compile(r"^[ \t]*version ", re.MULTILINE))
 
 
 if __name__ == "__main__":
