@@ -9,9 +9,9 @@ class Base < Formula
 
   bottle do
     root_url "https://github.com/codeforester/homebrew-base/releases/download/base-v1.0.1"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "7fa7246fefab3a00c1110462420454ecd99a65d8820cd66ada139e49f2d2a979"
-    sha256 cellar: :any_skip_relocation, sequoia:       "fb760e4ef8ebfe02cf344a8519afee4106fe04fe68a19d23494b9d4dcc122ea5"
+    rebuild 2
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "0fb1c07c5accc026ed70e3b9b925c487847225321cfe86038515732c9db3c5e6"
+    sha256 cellar: :any_skip_relocation, sequoia:       "de6694fe24a4b582d950315631cf3ce0981c74e02d2c954fd9ddb556eeadaa96"
   end
 
   depends_on "bash"
