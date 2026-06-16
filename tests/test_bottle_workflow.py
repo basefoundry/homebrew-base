@@ -57,11 +57,23 @@ class BottleWorkflowTests(unittest.TestCase):
         formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
 
         self.assertIn(
-            'bash_completion.install libexec/"lib/shell/completions/basectl_completion.sh" => "basectl"',
+            'bash_completion.install_symlink libexec/"lib/shell/completions/basectl_completion.sh" => "basectl"',
             formula,
         )
         self.assertIn(
-            'zsh_completion.install libexec/"lib/shell/completions/basectl_completion.zsh" => "_basectl"',
+            'zsh_completion.install_symlink libexec/"lib/shell/completions/basectl_completion.zsh" => "_basectl"',
+            formula,
+        )
+
+    def test_formula_test_checks_base_managed_completion_sources(self) -> None:
+        formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
+
+        self.assertIn(
+            'assert_path_exists libexec/"lib/shell/completions/basectl_completion.sh"',
+            formula,
+        )
+        self.assertIn(
+            'assert_path_exists libexec/"lib/shell/completions/basectl_completion.zsh"',
             formula,
         )
 
@@ -69,7 +81,7 @@ class BottleWorkflowTests(unittest.TestCase):
         formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
 
         self.assertIn('url "https://github.com/codeforester/base/archive/refs/tags/v1.0.1.tar.gz"', formula)
-        self.assertRegex(formula, re.compile(r"^[ \t]*revision 1$", re.MULTILINE))
+        self.assertRegex(formula, re.compile(r"^[ \t]*revision 2$", re.MULTILINE))
 
 
 if __name__ == "__main__":
