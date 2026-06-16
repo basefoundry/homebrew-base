@@ -77,11 +77,11 @@ class BottleWorkflowTests(unittest.TestCase):
             formula,
         )
 
-    def test_formula_revision_marks_completion_packaging_change(self) -> None:
+    def test_formula_uses_base_v1_0_2_without_revision(self) -> None:
         formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
 
-        self.assertIn('url "https://github.com/codeforester/base/archive/refs/tags/v1.0.1.tar.gz"', formula)
-        self.assertRegex(formula, re.compile(r"^[ \t]*revision 2$", re.MULTILINE))
+        self.assertIn('url "https://github.com/codeforester/base/archive/refs/tags/v1.0.2.tar.gz"', formula)
+        self.assertNotRegex(formula, re.compile(r"^[ \t]*revision ", re.MULTILINE))
 
 
 if __name__ == "__main__":

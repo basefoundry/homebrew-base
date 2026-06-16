@@ -1,17 +1,16 @@
 class Base < Formula
   desc "Workspace bootstrap and project environment orchestration tool"
   homepage "https://github.com/codeforester/base"
-  url "https://github.com/codeforester/base/archive/refs/tags/v1.0.1.tar.gz"
-  sha256 "a242333a096ef2f7f4b9608be8a309b8e3ed66c849d570d9fab3fd95d3377315"
+  url "https://github.com/codeforester/base/archive/refs/tags/v1.0.2.tar.gz"
+  sha256 "296fa4c0fca25a2cc453ac1d4c2fbd8cca6bf201af70ef29ce11e7b81b5d55f1"
   license "AGPL-3.0-or-later"
-  revision 2
   head "https://github.com/codeforester/base.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/codeforester/homebrew-base/releases/download/base-v1.0.1"
-    rebuild 3
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "dfd871ce9212daac2261b27f44e2beca3949a5c733105816be0d1d11eb7ba1e5"
-    sha256 cellar: :any_skip_relocation, sequoia:       "1eb0eab8ae9f1938837539e8f514c1cb7ac9c6b89e70316aa7621ad3a7b82837"
+    root_url "https://github.com/codeforester/homebrew-base/releases/download/base-v1.0.2"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "9c47fc5d738db9f3810239cb77854f8838c1c249732778e883c71008fa8a2632"
+    sha256 cellar: :any_skip_relocation, sequoia:       "b114981ab8a251455404134ea76a0f443c1001579f710cad7140dcd01103b1fd"
   end
 
   depends_on "bash"
