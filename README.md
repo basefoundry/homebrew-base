@@ -5,6 +5,8 @@ This repository is the Homebrew tap for
 
 ## Install
 
+Install Base:
+
 ```bash
 brew install codeforester/base/base
 basectl setup
@@ -15,13 +17,23 @@ exec "$SHELL" -l
 Homebrew installs the Base files, but `basectl setup` still prepares the local
 Base runtime under `~/.base.d/base/.venv`.
 
+Install the standalone Bash libraries:
+
+```bash
+brew install codeforester/base/base-bash-libs
+source "$(brew --prefix codeforester/base/base-bash-libs)/libexec/lib/bash/std/lib_std.sh"
+```
+
 ## Development
 
 ```bash
 brew tap codeforester/base
 brew install --formula base
+brew install --formula base-bash-libs
 brew install --build-from-source Formula/base.rb
+brew install --build-from-source Formula/base-bash-libs.rb
 brew test codeforester/base
+brew test codeforester/base-bash-libs
 brew audit --new --formula Formula/base.rb
 ```
 
