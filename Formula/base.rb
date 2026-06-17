@@ -6,6 +6,13 @@ class Base < Formula
   license "AGPL-3.0-or-later"
   head "https://github.com/codeforester/base.git", branch: "master"
 
+  bottle do
+    root_url "https://github.com/codeforester/homebrew-base/releases/download/base-v1.0.3"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "57ebddfaa41231d1b1771c5ac4b991db8df4451ec59a098427daf85ec27c725a"
+    sha256 cellar: :any_skip_relocation, sequoia:       "d5a182594a103779e6f137c6665f33b251362ccc5ef85d7fa359eb5c42f7374e"
+  end
+
   depends_on "bash"
   depends_on "python@3.13"
 
