@@ -77,11 +77,18 @@ class BottleWorkflowTests(unittest.TestCase):
             formula,
         )
 
-    def test_formula_uses_base_v1_0_3_without_revision(self) -> None:
+    def test_formula_uses_base_v1_0_4_without_revision(self) -> None:
         formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
 
-        self.assertIn('url "https://github.com/codeforester/base/archive/refs/tags/v1.0.3.tar.gz"', formula)
+        self.assertIn('url "https://github.com/codeforester/base/archive/refs/tags/v1.0.4.tar.gz"', formula)
         self.assertNotRegex(formula, re.compile(r"^[ \t]*revision ", re.MULTILINE))
+
+    def test_base_formula_depends_on_base_bash_libs(self) -> None:
+        formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
+
+        self.assertIn('depends_on "base-bash-libs"', formula)
+        self.assertIn('Formula["base-bash-libs"].opt_libexec/"lib/bash"', formula)
+        self.assertIn('BASE_BASH_LIBS_DIR', formula)
 
 
 if __name__ == "__main__":

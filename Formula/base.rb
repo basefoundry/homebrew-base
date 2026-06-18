@@ -1,19 +1,13 @@
 class Base < Formula
   desc "Workspace bootstrap and project environment orchestration tool"
   homepage "https://github.com/codeforester/base"
-  url "https://github.com/codeforester/base/archive/refs/tags/v1.0.3.tar.gz"
-  sha256 "760c9bba4f5b784bd2e5458e365ae2788ab2547fe4bc794c43d130cb13a4a2d3"
+  url "https://github.com/codeforester/base/archive/refs/tags/v1.0.4.tar.gz"
+  sha256 "986b488c27afcefc0adc9b70a15bd141fcdd38df3489849242b04cb6be2e8954"
   license "AGPL-3.0-or-later"
   head "https://github.com/codeforester/base.git", branch: "master"
 
-  bottle do
-    root_url "https://github.com/codeforester/homebrew-base/releases/download/base-v1.0.3"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "57ebddfaa41231d1b1771c5ac4b991db8df4451ec59a098427daf85ec27c725a"
-    sha256 cellar: :any_skip_relocation, sequoia:       "d5a182594a103779e6f137c6665f33b251362ccc5ef85d7fa359eb5c42f7374e"
-  end
-
   depends_on "bash"
+  depends_on "base-bash-libs"
   depends_on "python@3.13"
 
   def install
@@ -60,5 +54,18 @@ class Base < Formula
     assert_path_exists libexec/"lib/shell/completions/basectl_completion.zsh"
     assert_path_exists bash_completion/"basectl"
     assert_path_exists zsh_completion/"_basectl"
+
+    bash = Formula["bash"].opt_bin/"bash"
+    bash_libs_dir = Formula["base-bash-libs"].opt_libexec/"lib/bash"
+    assert_path_exists bash_libs_dir/"std/lib_std.sh"
+
+    (testpath/"bash-libs-dir.sh").write <<~EOS
+      BASE_HOME="#{libexec}"
+      source "#{libexec}/base_init.sh"
+      printf '%s\\n' "$BASE_BASH_LIBS_DIR"
+    EOS
+
+    assert_equal "#{bash_libs_dir}\n",
+                 shell_output("env -u BASE_HOME -u BASE_BASH_LIBS_DIR #{bash} #{testpath}/bash-libs-dir.sh")
   end
 end
