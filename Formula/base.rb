@@ -6,8 +6,8 @@ class Base < Formula
   license "AGPL-3.0-or-later"
   head "https://github.com/codeforester/base.git", branch: "master"
 
-  depends_on "bash"
   depends_on "base-bash-libs"
+  depends_on "bash"
   depends_on "python@3.13"
 
   def install
