@@ -67,11 +67,19 @@ jobs:
           brew untap codeforester/base >/dev/null 2>&1 || true
           brew tap codeforester/base "$GITHUB_WORKSPACE"
 
-      - name: Build bottle
+      - name: Build base-bash-libs bottle
+        shell: bash
+        run: brew install --build-bottle codeforester/base/base-bash-libs
+
+      - name: Smoke-test base-bash-libs bottle build
+        shell: bash
+        run: brew test codeforester/base/base-bash-libs
+
+      - name: Build Base bottle
         shell: bash
         run: brew install --build-bottle codeforester/base/base
 
-      - name: Smoke-test bottle build
+      - name: Smoke-test Base bottle build
         shell: bash
         run: |
           basectl_path="$(brew --prefix codeforester/base/base)/bin/basectl"
@@ -80,6 +88,7 @@ jobs:
       - name: Generate bottle JSON
         shell: bash
         run: |
+          brew bottle --json --root-url "${{ needs.metadata.outputs.root_url }}" codeforester/base/base-bash-libs
           brew bottle --json --root-url "${{ needs.metadata.outputs.root_url }}" codeforester/base/base
 
           ruby <<'RUBY'
@@ -204,17 +213,18 @@ jobs:
 
           tap_path="$(brew --repo codeforester/base)"
           cp "$tap_path/Formula/base.rb" Formula/base.rb
+          cp "$tap_path/Formula/base-bash-libs.rb" Formula/base-bash-libs.rb
 
       - name: Commit bottle stanza
         shell: bash
         run: |
-          if git diff --quiet -- Formula/base.rb; then
+          if git diff --quiet -- Formula/base.rb Formula/base-bash-libs.rb; then
             echo "Formula/base.rb already contains the current bottle stanza."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Formula/base.rb
+          git add Formula/base.rb Formula/base-bash-libs.rb
           git commit -m "Add Base ${{ needs.metadata.outputs.version }} Homebrew bottles"
           git push origin "HEAD:${GITHUB_REF_NAME}"

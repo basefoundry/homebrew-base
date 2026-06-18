@@ -16,10 +16,13 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn("workflow_dispatch:", content)
         self.assertIn("macos-15-intel", content)
         self.assertIn("macos-15", content)
+        self.assertIn("brew install --build-bottle codeforester/base/base-bash-libs", content)
+        self.assertIn("brew test codeforester/base/base-bash-libs", content)
         self.assertIn("brew install --build-bottle codeforester/base/base", content)
         self.assertIn("brew --prefix codeforester/base/base", content)
         self.assertIn('"$basectl_path" --version', content)
         self.assertIn("brew bottle --json --root-url", content)
+        self.assertIn("codeforester/base/base-bash-libs", content)
         self.assertIn("for path in *.bottle*.tar.gz *.bottle*.json; do", content)
         self.assertNotIn("for path in *.bottle.* *.json; do", content)
         self.assertIn("remote_filename = tag.fetch(\"filename\")", content)
@@ -29,6 +32,8 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn("brew bottle --merge --write --no-commit", content)
         self.assertIn("brew --repo codeforester/base", content)
         self.assertIn('"$tap_path/Formula/base.rb" Formula/base.rb', content)
+        self.assertIn('"$tap_path/Formula/base-bash-libs.rb" Formula/base-bash-libs.rb', content)
+        self.assertIn("git add Formula/base.rb Formula/base-bash-libs.rb", content)
         self.assertIn("github.ref_name == 'master'", content)
         self.assertIn("url_version=", content)
         self.assertIn("Unable to read Formula/base.rb version from version line or URL", content)
@@ -38,6 +43,7 @@ class BottleWorkflowTests(unittest.TestCase):
 
         self.assertIn("Build Bottles", readme)
         self.assertIn("base-vX.Y.Z", readme)
+        self.assertIn("base-bash-libs", readme)
         self.assertIn("brew install --force-bottle codeforester/base/base", readme)
 
     def test_generated_bottle_artifacts_are_ignored(self) -> None:
