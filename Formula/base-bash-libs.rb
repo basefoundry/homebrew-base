@@ -6,6 +6,13 @@ class BaseBashLibs < Formula
   license "AGPL-3.0-or-later"
   head "https://github.com/codeforester/base-bash-libs.git", branch: "master"
 
+  bottle do
+    root_url "https://github.com/codeforester/homebrew-base/releases/download/base-v1.0.4"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "448a48b81a4d5ca2038d3b98c33ea71083a1e19f6584e2d244e20cc73fc5b332"
+    sha256 cellar: :any_skip_relocation, sequoia:       "13a86f50b9a93f5042613beacd4d2c2aad53c4658f301d347375b7828580ef68"
+  end
+
   depends_on "bash"
 
   def install
