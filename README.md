@@ -8,11 +8,16 @@ This repository is the Homebrew tap for
 Install Base:
 
 ```bash
+brew trust codeforester/base
 brew install codeforester/base/base
 basectl setup
 basectl update-profile
 exec "$SHELL" -l
 ```
+
+The trust step is required on Homebrew versions that block formulae from
+non-official taps until the tap is trusted. It is safe to run again on machines
+that already trust `codeforester/base`.
 
 Homebrew installs the Base files, but `basectl setup` still prepares the local
 Base runtime under `~/.base.d/base/.venv`.
@@ -20,6 +25,7 @@ Base runtime under `~/.base.d/base/.venv`.
 Install the standalone Bash libraries:
 
 ```bash
+brew trust codeforester/base
 brew install codeforester/base/base-bash-libs
 source "$(brew --prefix codeforester/base/base-bash-libs)/libexec/lib/bash/std/lib_std.sh"
 ```
@@ -28,12 +34,13 @@ source "$(brew --prefix codeforester/base/base-bash-libs)/libexec/lib/bash/std/l
 
 ```bash
 brew tap codeforester/base
-brew install --formula base
-brew install --formula base-bash-libs
+brew trust codeforester/base
+brew install codeforester/base/base
+brew install codeforester/base/base-bash-libs
 brew install --build-from-source Formula/base.rb
 brew install --build-from-source Formula/base-bash-libs.rb
-brew test codeforester/base
-brew test codeforester/base-bash-libs
+brew test codeforester/base/base
+brew test codeforester/base/base-bash-libs
 brew audit --new --formula Formula/base.rb
 ```
 
@@ -56,8 +63,10 @@ After the tap PR is merged, verify the consumer bottle path:
 
 ```bash
 brew update
+brew trust codeforester/base
 brew install --force-bottle codeforester/base/base
 brew test codeforester/base/base
+brew upgrade --no-ask codeforester/base/base
 ```
 
 Use `brew reinstall --force-bottle codeforester/base/base` when Base is already
