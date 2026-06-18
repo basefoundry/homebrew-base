@@ -73,7 +73,17 @@ jobs:
 
       - name: Smoke-test base-bash-libs bottle build
         shell: bash
-        run: brew test codeforester/base/base-bash-libs
+        run: |
+          bash_path="$(brew --prefix bash)/bin/bash"
+          libs_prefix="$(brew --prefix codeforester/base/base-bash-libs)"
+          output="$(
+            "$bash_path" -c '
+              source "$1/libexec/lib/bash/std/lib_std.sh"
+              import "$1/libexec/lib/bash/file/lib_file.sh"
+              printf "%s\n" "$(type -t run)" "$(type -t update_file_section)"
+            ' _ "$libs_prefix"
+          )"
+          [[ "$output" == $'function\nfunction' ]]
 
       - name: Build Base bottle
         shell: bash
