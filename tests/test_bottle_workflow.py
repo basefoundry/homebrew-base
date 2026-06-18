@@ -46,7 +46,9 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn("Build Bottles", readme)
         self.assertIn("base-vX.Y.Z", readme)
         self.assertIn("base-bash-libs", readme)
+        self.assertIn("brew trust codeforester/base", readme)
         self.assertIn("brew install --force-bottle codeforester/base/base", readme)
+        self.assertIn("brew upgrade --no-ask codeforester/base/base", readme)
 
     def test_generated_bottle_artifacts_are_ignored(self) -> None:
         ignore = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
@@ -97,6 +99,11 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn('depends_on "base-bash-libs"', formula)
         self.assertIn('Formula["base-bash-libs"].opt_libexec/"lib/bash"', formula)
         self.assertIn('BASE_BASH_LIBS_DIR', formula)
+
+    def test_base_formula_caveats_use_no_ask_upgrade(self) -> None:
+        formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
+
+        self.assertIn("brew upgrade --no-ask codeforester/base/base", formula)
 
 
 if __name__ == "__main__":

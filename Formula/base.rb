@@ -51,7 +51,7 @@ class Base < Formula
         exec "$SHELL" -l
 
       When installed through Homebrew, update Base with:
-        brew upgrade codeforester/base/base
+        brew upgrade --no-ask codeforester/base/base
     EOS
   end
 
