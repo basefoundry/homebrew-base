@@ -4,12 +4,14 @@ class BaseBashLibs < Formula
   url "https://github.com/codeforester/base-bash-libs/archive/refs/tags/v0.2.0.tar.gz"
   sha256 "0da893fcf763aa302913ff195545620c1f8783e0eb83619eb1bc0a33097a2cab"
   license "AGPL-3.0-or-later"
+  revision 1
   head "https://github.com/codeforester/base-bash-libs.git", branch: "master"
 
   depends_on "bash"
 
   def install
     libexec.install "lib"
+    libexec.install "VERSION"
     pkgshare.install "README.md", "CHANGELOG.md"
     pkgshare.install "examples"
   end
