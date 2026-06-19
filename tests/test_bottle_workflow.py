@@ -16,15 +16,15 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn("workflow_dispatch:", content)
         self.assertIn("macos-15-intel", content)
         self.assertIn("macos-15", content)
-        self.assertIn("brew install --build-bottle codeforester/base/base-bash-libs", content)
+        self.assertIn("brew install --build-bottle basefoundry/base/base-bash-libs", content)
         self.assertIn('bash_path="$(brew --prefix bash)/bin/bash"', content)
-        self.assertIn('libs_prefix="$(brew --prefix codeforester/base/base-bash-libs)"', content)
+        self.assertIn('libs_prefix="$(brew --prefix basefoundry/base/base-bash-libs)"', content)
         self.assertIn('source "$1/libexec/lib/bash/std/lib_std.sh"', content)
-        self.assertIn("brew install --build-bottle codeforester/base/base", content)
-        self.assertIn("brew --prefix codeforester/base/base", content)
+        self.assertIn("brew install --build-bottle basefoundry/base/base", content)
+        self.assertIn("brew --prefix basefoundry/base/base", content)
         self.assertIn('"$basectl_path" --version', content)
         self.assertIn("brew bottle --json --root-url", content)
-        self.assertIn("codeforester/base/base-bash-libs", content)
+        self.assertIn("basefoundry/base/base-bash-libs", content)
         self.assertIn("for path in *.bottle*.tar.gz *.bottle*.json; do", content)
         self.assertNotIn("for path in *.bottle.* *.json; do", content)
         self.assertIn("remote_filename = tag.fetch(\"filename\")", content)
@@ -32,7 +32,7 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn("FileUtils.mv(local_filename, remote_filename)", content)
         self.assertIn("gh release upload", content)
         self.assertIn("brew bottle --merge --write --no-commit", content)
-        self.assertIn("brew --repo codeforester/base", content)
+        self.assertIn("brew --repo basefoundry/base", content)
         self.assertIn('"$tap_path/Formula/base.rb" Formula/base.rb', content)
         self.assertIn('"$tap_path/Formula/base-bash-libs.rb" Formula/base-bash-libs.rb', content)
         self.assertIn("git add Formula/base.rb Formula/base-bash-libs.rb", content)
@@ -46,9 +46,9 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn("Build Bottles", readme)
         self.assertIn("base-vX.Y.Z", readme)
         self.assertIn("base-bash-libs", readme)
-        self.assertIn("brew trust codeforester/base", readme)
-        self.assertIn("brew install --force-bottle codeforester/base/base", readme)
-        self.assertIn("brew upgrade --no-ask codeforester/base/base", readme)
+        self.assertIn("brew trust basefoundry/base", readme)
+        self.assertIn("brew install --force-bottle basefoundry/base/base", readme)
+        self.assertIn("brew upgrade --no-ask basefoundry/base/base", readme)
 
     def test_generated_bottle_artifacts_are_ignored(self) -> None:
         ignore = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
@@ -60,7 +60,7 @@ class BottleWorkflowTests(unittest.TestCase):
     def test_formula_omits_redundant_explicit_version(self) -> None:
         formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
 
-        self.assertIn('url "https://github.com/codeforester/base/archive/refs/tags/v', formula)
+        self.assertIn('url "https://github.com/basefoundry/base/archive/refs/tags/v', formula)
         self.assertNotRegex(formula, re.compile(r"^[ \t]*version ", re.MULTILINE))
 
     def test_formula_installs_shell_completions(self) -> None:
@@ -90,7 +90,7 @@ class BottleWorkflowTests(unittest.TestCase):
     def test_formula_uses_base_v1_0_5_without_revision(self) -> None:
         formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
 
-        self.assertIn('url "https://github.com/codeforester/base/archive/refs/tags/v1.0.5.tar.gz"', formula)
+        self.assertIn('url "https://github.com/basefoundry/base/archive/refs/tags/v1.0.5.tar.gz"', formula)
         self.assertNotRegex(formula, re.compile(r"^[ \t]*revision ", re.MULTILINE))
 
     def test_base_formula_depends_on_base_bash_libs(self) -> None:
@@ -103,7 +103,7 @@ class BottleWorkflowTests(unittest.TestCase):
     def test_base_formula_caveats_use_no_ask_upgrade(self) -> None:
         formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
 
-        self.assertIn("brew upgrade --no-ask codeforester/base/base", formula)
+        self.assertIn("brew upgrade --no-ask basefoundry/base/base", formula)
 
 
 if __name__ == "__main__":

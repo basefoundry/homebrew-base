@@ -1,15 +1,15 @@
 # Homebrew Tap For Base
 
 This repository is the Homebrew tap for
-[Base](https://github.com/codeforester/base).
+[Base](https://github.com/basefoundry/base).
 
 ## Install
 
 Install Base:
 
 ```bash
-brew trust codeforester/base
-brew install codeforester/base/base
+brew trust basefoundry/base
+brew install basefoundry/base/base
 basectl setup
 basectl update-profile
 exec "$SHELL" -l
@@ -17,7 +17,7 @@ exec "$SHELL" -l
 
 The trust step is required on Homebrew versions that block formulae from
 non-official taps until the tap is trusted. It is safe to run again on machines
-that already trust `codeforester/base`.
+that already trust `basefoundry/base`.
 
 Homebrew installs the Base files, but `basectl setup` still prepares the local
 Base runtime under `~/.base.d/base/.venv`.
@@ -25,22 +25,22 @@ Base runtime under `~/.base.d/base/.venv`.
 Install the standalone Bash libraries:
 
 ```bash
-brew trust codeforester/base
-brew install codeforester/base/base-bash-libs
-source "$(brew --prefix codeforester/base/base-bash-libs)/libexec/lib/bash/std/lib_std.sh"
+brew trust basefoundry/base
+brew install basefoundry/base/base-bash-libs
+source "$(brew --prefix basefoundry/base/base-bash-libs)/libexec/lib/bash/std/lib_std.sh"
 ```
 
 ## Development
 
 ```bash
-brew tap codeforester/base
-brew trust codeforester/base
-brew install codeforester/base/base
-brew install codeforester/base/base-bash-libs
+brew tap basefoundry/base
+brew trust basefoundry/base
+brew install basefoundry/base/base
+brew install basefoundry/base/base-bash-libs
 brew install --build-from-source Formula/base.rb
 brew install --build-from-source Formula/base-bash-libs.rb
-brew test codeforester/base/base
-brew test codeforester/base/base-bash-libs
+brew test basefoundry/base/base
+brew test basefoundry/base/base-bash-libs
 brew audit --new --formula Formula/base.rb
 ```
 
@@ -63,11 +63,11 @@ After the tap PR is merged, verify the consumer bottle path:
 
 ```bash
 brew update
-brew trust codeforester/base
-brew install --force-bottle codeforester/base/base
-brew test codeforester/base/base
-brew upgrade --no-ask codeforester/base/base
+brew trust basefoundry/base
+brew install --force-bottle basefoundry/base/base
+brew test basefoundry/base/base
+brew upgrade --no-ask basefoundry/base/base
 ```
 
-Use `brew reinstall --force-bottle codeforester/base/base` when Base is already
+Use `brew reinstall --force-bottle basefoundry/base/base` when Base is already
 installed on the validation host.

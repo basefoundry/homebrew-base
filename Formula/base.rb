@@ -1,13 +1,13 @@
 class Base < Formula
   desc "Workspace bootstrap and project environment orchestration tool"
-  homepage "https://github.com/codeforester/base"
-  url "https://github.com/codeforester/base/archive/refs/tags/v1.0.5.tar.gz"
+  homepage "https://github.com/basefoundry/base"
+  url "https://github.com/basefoundry/base/archive/refs/tags/v1.0.5.tar.gz"
   sha256 "f83f967f114330fd029fbcef51b79c8bdd568dab7db518bcdf4a74eb203cca92"
   license "AGPL-3.0-or-later"
-  head "https://github.com/codeforester/base.git", branch: "master"
+  head "https://github.com/basefoundry/base.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/codeforester/homebrew-base/releases/download/base-v1.0.5"
+    root_url "https://github.com/basefoundry/homebrew-base/releases/download/base-v1.0.5"
     rebuild 1
     sha256 cellar: :any_skip_relocation, arm64_sequoia: "d1447694e52a684982fb9b5582f86feb6a46429e23a110640102eab6ba3deddd"
     sha256 cellar: :any_skip_relocation, sequoia:       "50aae7c34c532cd7d4dafd34f3c3b342a7fd05c774bbf3cc91be871d70a2dcc7"
@@ -51,7 +51,7 @@ class Base < Formula
         exec "$SHELL" -l
 
       When installed through Homebrew, update Base with:
-        brew upgrade --no-ask codeforester/base/base
+        brew upgrade --no-ask basefoundry/base/base
     EOS
   end
 
