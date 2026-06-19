@@ -64,18 +64,18 @@ jobs:
       - name: Tap local checkout
         shell: bash
         run: |
-          brew untap codeforester/base >/dev/null 2>&1 || true
-          brew tap codeforester/base "$GITHUB_WORKSPACE"
+          brew untap basefoundry/base >/dev/null 2>&1 || true
+          brew tap basefoundry/base "$GITHUB_WORKSPACE"
 
       - name: Build base-bash-libs bottle
         shell: bash
-        run: brew install --build-bottle codeforester/base/base-bash-libs
+        run: brew install --build-bottle basefoundry/base/base-bash-libs
 
       - name: Smoke-test base-bash-libs bottle build
         shell: bash
         run: |
           bash_path="$(brew --prefix bash)/bin/bash"
-          libs_prefix="$(brew --prefix codeforester/base/base-bash-libs)"
+          libs_prefix="$(brew --prefix basefoundry/base/base-bash-libs)"
           output="$(
             "$bash_path" -c '
               source "$1/libexec/lib/bash/std/lib_std.sh"
@@ -87,19 +87,19 @@ jobs:
 
       - name: Build Base bottle
         shell: bash
-        run: brew install --build-bottle codeforester/base/base
+        run: brew install --build-bottle basefoundry/base/base
 
       - name: Smoke-test Base bottle build
         shell: bash
         run: |
-          basectl_path="$(brew --prefix codeforester/base/base)/bin/basectl"
+          basectl_path="$(brew --prefix basefoundry/base/base)/bin/basectl"
           "$basectl_path" --version
 
       - name: Generate bottle JSON
         shell: bash
         run: |
-          brew bottle --json --root-url "${{ needs.metadata.outputs.root_url }}" codeforester/base/base-bash-libs
-          brew bottle --json --root-url "${{ needs.metadata.outputs.root_url }}" codeforester/base/base
+          brew bottle --json --root-url "${{ needs.metadata.outputs.root_url }}" basefoundry/base/base-bash-libs
+          brew bottle --json --root-url "${{ needs.metadata.outputs.root_url }}" basefoundry/base/base
 
           ruby <<'RUBY'
           require "fileutils"
@@ -173,8 +173,8 @@ jobs:
       - name: Tap local checkout
         shell: bash
         run: |
-          brew untap codeforester/base >/dev/null 2>&1 || true
-          brew tap codeforester/base "$GITHUB_WORKSPACE"
+          brew untap basefoundry/base >/dev/null 2>&1 || true
+          brew tap basefoundry/base "$GITHUB_WORKSPACE"
 
       - name: Create tap bottle release
         shell: bash
@@ -221,7 +221,7 @@ jobs:
 
           brew bottle --merge --write --no-commit "${json_files[@]}"
 
-          tap_path="$(brew --repo codeforester/base)"
+          tap_path="$(brew --repo basefoundry/base)"
           cp "$tap_path/Formula/base.rb" Formula/base.rb
           cp "$tap_path/Formula/base-bash-libs.rb" Formula/base-bash-libs.rb
 
