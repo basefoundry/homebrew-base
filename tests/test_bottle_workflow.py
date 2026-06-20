@@ -36,7 +36,7 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn('"$tap_path/Formula/base.rb" Formula/base.rb', content)
         self.assertIn('"$tap_path/Formula/base-bash-libs.rb" Formula/base-bash-libs.rb', content)
         self.assertIn("git add Formula/base.rb Formula/base-bash-libs.rb", content)
-        self.assertIn("github.ref_name == 'master'", content)
+        self.assertIn("github.ref_name == 'main'", content)
         self.assertIn("url_version=", content)
         self.assertIn("Unable to read Formula/base.rb version from version line or URL", content)
 
@@ -99,6 +99,16 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn('depends_on "base-bash-libs"', formula)
         self.assertIn('Formula["base-bash-libs"].opt_libexec/"lib/bash"', formula)
         self.assertIn('BASE_BASH_LIBS_DIR', formula)
+
+    def test_formula_head_branches_use_main(self) -> None:
+        base_formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
+        libs_formula = (REPO_ROOT / "Formula" / "base-bash-libs.rb").read_text(encoding="utf-8")
+
+        self.assertIn('head "https://github.com/basefoundry/base.git", branch: "main"', base_formula)
+        self.assertIn(
+            'head "https://github.com/basefoundry/base-bash-libs.git", branch: "main"',
+            libs_formula,
+        )
 
     def test_base_formula_caveats_use_no_ask_upgrade(self) -> None:
         formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")

@@ -4,7 +4,7 @@ class BaseBashLibs < Formula
   url "https://github.com/basefoundry/base-bash-libs/archive/refs/tags/v0.2.1.tar.gz"
   sha256 "663ca852474948c4c6d27f1bc00786d03ab56a4a136acefa5f80f77382eba1ee"
   license "Apache-2.0"
-  head "https://github.com/basefoundry/base-bash-libs.git", branch: "master"
+  head "https://github.com/basefoundry/base-bash-libs.git", branch: "main"
 
   depends_on "bash"
 
