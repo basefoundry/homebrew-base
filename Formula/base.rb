@@ -4,7 +4,7 @@ class Base < Formula
   url "https://github.com/basefoundry/base/archive/refs/tags/v1.0.5.tar.gz"
   sha256 "f83f967f114330fd029fbcef51b79c8bdd568dab7db518bcdf4a74eb203cca92"
   license "AGPL-3.0-or-later"
-  head "https://github.com/basefoundry/base.git", branch: "master"
+  head "https://github.com/basefoundry/base.git", branch: "main"
 
   bottle do
     root_url "https://github.com/basefoundry/homebrew-base/releases/download/base-v1.0.5"

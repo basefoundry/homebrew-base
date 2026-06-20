@@ -45,7 +45,7 @@ brew audit --new --formula Formula/base.rb
 ```
 
 The stable formula installs Base from a versioned release archive. The formula's
-`head` stanza remains available for local development against Base's `master`
+`head` stanza remains available for local development against Base's `main`
 branch.
 
 ## Build Bottles
