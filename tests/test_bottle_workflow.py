@@ -87,10 +87,10 @@ class BottleWorkflowTests(unittest.TestCase):
             formula,
         )
 
-    def test_formula_uses_base_v1_0_5_without_revision(self) -> None:
+    def test_formula_uses_base_v1_1_0_without_revision(self) -> None:
         formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
 
-        self.assertIn('url "https://github.com/basefoundry/base/archive/refs/tags/v1.0.5.tar.gz"', formula)
+        self.assertIn('url "https://github.com/basefoundry/base/archive/refs/tags/v1.1.0.tar.gz"', formula)
         self.assertNotRegex(formula, re.compile(r"^[ \t]*revision ", re.MULTILINE))
 
     def test_base_formula_depends_on_base_bash_libs(self) -> None:
