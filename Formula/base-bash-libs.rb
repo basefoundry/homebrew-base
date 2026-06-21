@@ -1,8 +1,8 @@
 class BaseBashLibs < Formula
   desc "Reusable Bash libraries extracted from Base"
   homepage "https://github.com/basefoundry/base-bash-libs"
-  url "https://github.com/basefoundry/base-bash-libs/archive/refs/tags/v0.2.1.tar.gz"
-  sha256 "663ca852474948c4c6d27f1bc00786d03ab56a4a136acefa5f80f77382eba1ee"
+  url "https://github.com/basefoundry/base-bash-libs/archive/refs/tags/v1.0.0.tar.gz"
+  sha256 "1a3e1ac86868cdda305e5eb314a434de2e1d904de6a733829a688f1c4bd82171"
   license "Apache-2.0"
   head "https://github.com/basefoundry/base-bash-libs.git", branch: "main"
 
@@ -40,6 +40,6 @@ class BaseBashLibs < Formula
     EOS
 
     bash = Formula["bash"].opt_bin/"bash"
-    assert_equal "0.2.1\nfunction\nfunction\nfunction\nfunction\n", shell_output("#{bash} #{testpath}/smoke.sh")
+    assert_equal "1.0.0\nfunction\nfunction\nfunction\nfunction\n", shell_output("#{bash} #{testpath}/smoke.sh")
   end
 end
