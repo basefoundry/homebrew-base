@@ -6,6 +6,13 @@ class Base < Formula
   license "AGPL-3.0-or-later"
   head "https://github.com/basefoundry/base.git", branch: "main"
 
+  bottle do
+    root_url "https://github.com/basefoundry/homebrew-base/releases/download/base-v1.1.0"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "8708a368b11b78d4b32b83d36c90c593b7f17af60e40019bb8a5df63b801a7b2"
+    sha256 cellar: :any_skip_relocation, sequoia:       "437361f915362995d087d1c8ecb88f700e8bca599c9093e20dcd360ce10ac1f8"
+  end
+
   depends_on "base-bash-libs"
   depends_on "bash"
   depends_on "python@3.13"
