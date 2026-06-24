@@ -1,17 +1,10 @@
 class Base < Formula
   desc "Workspace bootstrap and project environment orchestration tool"
   homepage "https://github.com/basefoundry/base"
-  url "https://github.com/basefoundry/base/archive/refs/tags/v1.1.0.tar.gz"
-  sha256 "fbb0587f0955327b12336f7663ee5dc5bd2c6b150ab14c88ed4581e112281214"
+  url "https://github.com/basefoundry/base/archive/refs/tags/v1.2.0.tar.gz"
+  sha256 "12a13350205df260722cf37507113a434850b20aa7ea85ac554054b44bb6dc50"
   license "AGPL-3.0-or-later"
   head "https://github.com/basefoundry/base.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/basefoundry/homebrew-base/releases/download/base-v1.1.0"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "8708a368b11b78d4b32b83d36c90c593b7f17af60e40019bb8a5df63b801a7b2"
-    sha256 cellar: :any_skip_relocation, sequoia:       "437361f915362995d087d1c8ecb88f700e8bca599c9093e20dcd360ce10ac1f8"
-  end
 
   depends_on "base-bash-libs"
   depends_on "bash"
@@ -62,8 +55,8 @@ class Base < Formula
     assert_path_exists bash_completion/"basectl"
     assert_path_exists zsh_completion/"_basectl"
 
-    bash = Formula["bash"].opt_bin/"bash"
-    bash_libs_dir = Formula["base-bash-libs"].opt_libexec/"lib/bash"
+    bash = formula_opt_bin("bash")/"bash"
+    bash_libs_dir = formula_opt_libexec("base-bash-libs")/"lib/bash"
     assert_path_exists bash_libs_dir/"std/lib_std.sh"
 
     (testpath/"bash-libs-dir.sh").write <<~EOS
