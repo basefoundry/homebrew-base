@@ -1,8 +1,8 @@
 class Base < Formula
   desc "Workspace bootstrap and project environment orchestration tool"
   homepage "https://github.com/basefoundry/base"
-  url "https://github.com/basefoundry/base/archive/refs/tags/v1.5.0.tar.gz"
-  sha256 "03346411f828d40314e2109ed9732ca6b6cacfd757514d3c1dcd8a51a17bbf47"
+  url "https://github.com/basefoundry/base/archive/refs/tags/v1.6.0.tar.gz"
+  sha256 "7e13191c0293b2b8b646332bff0467d4765ed990e404fb15df43bf45d6a79b30"
   license "AGPL-3.0-or-later"
   head "https://github.com/basefoundry/base.git", branch: "main"
 
