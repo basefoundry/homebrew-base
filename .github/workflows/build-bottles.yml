@@ -80,10 +80,11 @@ jobs:
             "$bash_path" -c '
               source "$1/libexec/lib/bash/std/lib_std.sh"
               import "$1/libexec/lib/bash/file/lib_file.sh"
-              printf "%s\n" "$(type -t run)" "$(type -t update_file_section)"
+              import "$1/libexec/lib/bash/gh/lib_gh.sh"
+              printf "%s\n" "$(type -t std_run)" "$(type -t update_file_section)" "$(type -t gh_run)"
             ' _ "$libs_prefix"
           )"
-          [[ "$output" == $'function\nfunction' ]]
+          [[ "$output" == $'function\nfunction\nfunction' ]]
 
       - name: Build Base bottle
         shell: bash
