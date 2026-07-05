@@ -66,6 +66,7 @@ jobs:
         run: |
           brew untap basefoundry/base >/dev/null 2>&1 || true
           brew tap basefoundry/base "$GITHUB_WORKSPACE"
+          brew trust basefoundry/base
 
       - name: Build base-bash-libs bottle
         shell: bash
@@ -176,6 +177,7 @@ jobs:
         run: |
           brew untap basefoundry/base >/dev/null 2>&1 || true
           brew tap basefoundry/base "$GITHUB_WORKSPACE"
+          brew trust basefoundry/base
 
       - name: Create tap bottle release
         shell: bash
