@@ -7,6 +7,13 @@ class BaseBashLibs < Formula
   version_scheme 1
   head "https://github.com/basefoundry/base-bash-libs.git", branch: "main"
 
+  bottle do
+    root_url "https://github.com/basefoundry/homebrew-base/releases/download/base-v1.6.1"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "75c6a3c7c2d8febd64de48298a625407143ea9515551c5507ae7f2fad9b76b43"
+    sha256 cellar: :any_skip_relocation, sequoia:       "60f709e49c17ec1a5320b2f29cf3c70fd631cb6bf0c77cbab0f403c2a45c9541"
+  end
+
   depends_on "bash"
 
   def install
