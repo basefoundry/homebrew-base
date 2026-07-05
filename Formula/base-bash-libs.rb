@@ -1,8 +1,8 @@
 class BaseBashLibs < Formula
   desc "Reusable Bash libraries extracted from Base"
   homepage "https://github.com/basefoundry/base-bash-libs"
-  url "https://github.com/basefoundry/base-bash-libs/archive/refs/tags/v1.1.0.tar.gz"
-  sha256 "9a2d60410ab27ee5c9d36cc1920d1288309f7916f7cafe4cda6a6eb55695488f"
+  url "https://github.com/basefoundry/base-bash-libs/archive/refs/tags/v1.2.0.tar.gz"
+  sha256 "ec1b44d21a04580e4f3a7315b70a5aec8185fd37c1157947cffc02b8da3c2b73"
   license "Apache-2.0"
   version_scheme 1
   head "https://github.com/basefoundry/base-bash-libs.git", branch: "main"
@@ -34,6 +34,7 @@ class BaseBashLibs < Formula
     assert_path_exists libexec/"lib/bash/std/lib_std.sh"
     assert_path_exists libexec/"lib/bash/file/lib_file.sh"
     assert_path_exists libexec/"lib/bash/git/lib_git.sh"
+    assert_path_exists libexec/"lib/bash/gh/lib_gh.sh"
     assert_path_exists bin/"base-bash"
     assert_path_exists pkgshare/"LICENSE"
     assert_path_exists pkgshare/"NOTICE"
@@ -42,11 +43,12 @@ class BaseBashLibs < Formula
       source "#{libexec}/lib/bash/std/lib_std.sh"
       import "#{libexec}/lib/bash/file/lib_file.sh"
       import "#{libexec}/lib/bash/git/lib_git.sh"
-      printf '%s\\n' "$BASE_BASH_LIBS_VERSION" "$(type -t std_run)" "$(type -t run)" "$(type -t update_file_section)" "$(type -t git_get_current_branch)"
+      import "#{libexec}/lib/bash/gh/lib_gh.sh"
+      printf '%s\\n' "$BASE_BASH_LIBS_VERSION" "$(type -t std_run)" "$(type -t update_file_section)" "$(type -t git_get_current_branch)" "$(type -t gh_run)"
     EOS
 
-    bash = Formula["bash"].opt_bin/"bash"
-    assert_equal "1.1.0\nfunction\nfunction\nfunction\nfunction\n", shell_output("#{bash} #{testpath}/smoke.sh")
+    bash = formula_opt_bin("bash")/"bash"
+    assert_equal "1.2.0\nfunction\nfunction\nfunction\nfunction\n", shell_output("#{bash} #{testpath}/smoke.sh")
 
     (testpath/"launcher.sh").write <<~EOS
       #!/usr/bin/env base-bash
@@ -61,6 +63,6 @@ class BaseBashLibs < Formula
     EOS
     chmod 0755, testpath/"launcher.sh"
 
-    assert_equal "1.1.0\n1\nlauncher\n1\n", shell_output("PATH=#{bin}:$PATH #{testpath}/launcher.sh arg")
+    assert_equal "1.2.0\n1\nlauncher\n1\n", shell_output("PATH=#{bin}:$PATH #{testpath}/launcher.sh arg")
   end
 end
