@@ -89,7 +89,10 @@ jobs:
 
       - name: Build Base bottle
         shell: bash
-        run: brew install --build-bottle basefoundry/base/base
+        run: |
+          # Base is a shell application; avoid linking hosted-runner Python files
+          # while still retaining the formula's declared runtime dependencies.
+          brew install --build-bottle --ignore-dependencies basefoundry/base/base
 
       - name: Smoke-test Base bottle build
         shell: bash
