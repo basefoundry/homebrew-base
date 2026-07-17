@@ -7,10 +7,10 @@ class Base < Formula
   head "https://github.com/basefoundry/base.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/basefoundry/homebrew-base/releases/download/base-v1.6.1"
-    rebuild 2
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "796545c88f9593e3dc59080575791ab8ca3ca6494f16f233dc58a13c53deeefa"
-    sha256 cellar: :any_skip_relocation, sequoia:       "060443de6e87ab98582910017e4eb9cba74460fe6301a85b4fc44f749fc058da"
+    root_url "https://github.com/basefoundry/homebrew-base/releases/download/base-v1.7.0"
+    rebuild 3
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a4e311e0eb8ccea47994c838f6e3af34f99c9fc6f0704a38453bb31b1daa0a77"
+    sha256 cellar: :any_skip_relocation, sequoia:       "936e4584f59b30e23024aafcc43d8836229a956de42c05cb58f7fc480e3fa60a"
   end
 
   depends_on "base-bash-libs"
