@@ -1,8 +1,8 @@
 class BaseBashLibs < Formula
   desc "Reusable Bash libraries extracted from Base"
   homepage "https://github.com/basefoundry/base-bash-libs"
-  url "https://github.com/basefoundry/base-bash-libs/archive/refs/tags/v1.3.0.tar.gz"
-  sha256 "e942ca7da29a4fb935b2834413d12a27679476440bdb63bf270207fb275b97a5"
+  url "https://github.com/basefoundry/base-bash-libs/archive/refs/tags/v1.4.0.tar.gz"
+  sha256 "3c9e3ac0870d4d9728ce9d9c676cdfc64892c3bce2610623c5f664cd7ea01317"
   license "Apache-2.0"
   version_scheme 1
   head "https://github.com/basefoundry/base-bash-libs.git", branch: "main"
@@ -55,7 +55,7 @@ class BaseBashLibs < Formula
     EOS
 
     bash = formula_opt_bin("bash")/"bash"
-    assert_equal "1.3.0\nfunction\nfunction\nfunction\nfunction\n", shell_output("#{bash} #{testpath}/smoke.sh")
+    assert_equal "1.4.0\nfunction\nfunction\nfunction\nfunction\n", shell_output("#{bash} #{testpath}/smoke.sh")
 
     (testpath/"launcher.sh").write <<~EOS
       #!/usr/bin/env base-bash
@@ -70,6 +70,6 @@ class BaseBashLibs < Formula
     EOS
     chmod 0755, testpath/"launcher.sh"
 
-    assert_equal "1.3.0\n1\nlauncher\n1\n", shell_output("PATH=#{bin}:$PATH #{testpath}/launcher.sh arg")
+    assert_equal "1.4.0\n1\nlauncher\n1\n", shell_output("PATH=#{bin}:$PATH #{testpath}/launcher.sh arg")
   end
 end
