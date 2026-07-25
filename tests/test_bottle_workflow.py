@@ -16,6 +16,10 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn("workflow_dispatch:", content)
         self.assertIn("macos-15-intel", content)
         self.assertIn("macos-15", content)
+        self.assertIn('default_branch="${{ github.event.repository.default_branch }}"', content)
+        self.assertIn("+refs/heads/${default_branch}:refs/remotes/origin/${default_branch}", content)
+        self.assertIn("symbolic-ref", content)
+        self.assertIn('refs/remotes/origin/HEAD', content)
         self.assertIn("brew install --build-bottle basefoundry/base/base-bash-libs", content)
         self.assertIn('bash_path="$(brew --prefix bash)/bin/bash"', content)
         self.assertIn('libs_prefix="$(brew --prefix basefoundry/base/base-bash-libs)"', content)
@@ -46,6 +50,8 @@ class BottleWorkflowTests(unittest.TestCase):
         self.assertIn("Build Bottles", readme)
         self.assertIn("base-vX.Y.Z", readme)
         self.assertIn("base-bash-libs", readme)
+        self.assertIn("remove its old", readme)
+        self.assertIn("bottle do", readme)
         self.assertIn("brew trust basefoundry/base", readme)
         self.assertIn("brew install --force-bottle basefoundry/base/base", readme)
         self.assertIn("brew upgrade --no-ask basefoundry/base/base", readme)
@@ -87,17 +93,24 @@ class BottleWorkflowTests(unittest.TestCase):
             formula,
         )
 
-    def test_formula_uses_base_v1_1_0_without_revision(self) -> None:
+    def test_formula_uses_versioned_base_release_without_revision(self) -> None:
         formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
 
-        self.assertIn('url "https://github.com/basefoundry/base/archive/refs/tags/v1.1.0.tar.gz"', formula)
+        self.assertRegex(
+            formula,
+            re.compile(
+                r'^  url "https://github\.com/basefoundry/base/archive/refs/tags/'
+                r'v\d+\.\d+\.\d+\.tar\.gz"$',
+                re.MULTILINE,
+            ),
+        )
         self.assertNotRegex(formula, re.compile(r"^[ \t]*revision ", re.MULTILINE))
 
     def test_base_formula_depends_on_base_bash_libs(self) -> None:
         formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
 
         self.assertIn('depends_on "base-bash-libs"', formula)
-        self.assertIn('Formula["base-bash-libs"].opt_libexec/"lib/bash"', formula)
+        self.assertIn('formula_opt_libexec("base-bash-libs")/"lib/bash"', formula)
         self.assertIn('BASE_BASH_LIBS_DIR', formula)
 
     def test_formula_head_branches_use_main(self) -> None:
