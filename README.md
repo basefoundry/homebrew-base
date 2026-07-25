@@ -51,10 +51,13 @@ branch.
 ## Build Bottles
 
 Build Homebrew bottles from a tap release branch after `Formula/base.rb` points
-at a published Base tag. The workflow builds bottle artifacts for Base and its
-tap-owned `base-bash-libs` dependency, publishes the tarballs to a tap GitHub
-Release named `base-vX.Y.Z`, merges the generated bottle stanzas into the
-formula files, and pushes that change back to the same branch.
+at a published Base tag. When a formula source version changes, remove its old
+`bottle do` block on the release branch before dispatching the workflow so the
+new bottle lineage and dependent bottle metadata cannot inherit stale rebuild
+information. The workflow builds bottle artifacts for Base and its tap-owned
+`base-bash-libs` dependency, publishes the tarballs to a tap GitHub Release
+named `base-vX.Y.Z`, merges the generated bottle stanzas into the formula files,
+and pushes that change back to the same branch.
 
 Use the GitHub Actions **Build Base Bottles** workflow on the tap release
 branch, then review the branch diff before merging the tap PR.
