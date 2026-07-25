@@ -8,9 +8,9 @@ class Base < Formula
 
   bottle do
     root_url "https://github.com/basefoundry/homebrew-base/releases/download/base-v1.7.0"
-    rebuild 3
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a4e311e0eb8ccea47994c838f6e3af34f99c9fc6f0704a38453bb31b1daa0a77"
-    sha256 cellar: :any_skip_relocation, sequoia:       "936e4584f59b30e23024aafcc43d8836229a956de42c05cb58f7fc480e3fa60a"
+    rebuild 4
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "8b8e3820fbdcc8bffd8cbadb54e2fb9d14c02bbdc6001ab350048316a37f75fb"
+    sha256 cellar: :any_skip_relocation, sequoia:       "dd8eb0585babb2b26d90019e4fec8a409b9802b3d8496775926c8b5ca98caac2"
   end
 
   depends_on "base-bash-libs"
