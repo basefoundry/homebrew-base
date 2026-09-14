@@ -106,6 +106,20 @@ class BottleWorkflowTests(unittest.TestCase):
         )
         self.assertNotRegex(formula, re.compile(r"^[ \t]*revision ", re.MULTILINE))
 
+    def test_base_formula_tracks_current_release_and_license_boundary(self) -> None:
+        formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
+
+        self.assertIn(
+            'url "https://github.com/basefoundry/base/archive/refs/tags/v1.9.0.tar.gz"',
+            formula,
+        )
+        self.assertIn(
+            'sha256 "75edf9cb017ab444c22de67872bacb5b9e1527a719750a7c08a5f168506d729f"',
+            formula,
+        )
+        self.assertIn('license "Apache-2.0"', formula)
+        self.assertNotIn('base-v1.8.0', formula)
+
     def test_base_formula_depends_on_base_bash_libs(self) -> None:
         formula = (REPO_ROOT / "Formula" / "base.rb").read_text(encoding="utf-8")
 

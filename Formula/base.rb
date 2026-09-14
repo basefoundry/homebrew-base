@@ -1,16 +1,10 @@
 class Base < Formula
   desc "Workspace bootstrap and project environment orchestration tool"
   homepage "https://github.com/basefoundry/base"
-  url "https://github.com/basefoundry/base/archive/refs/tags/v1.8.0.tar.gz"
-  sha256 "646e8b7f16fad42caf702ff5357a3c73e9bf35a8a607ae1538b6fb982db637e1"
-  license "AGPL-3.0-or-later"
+  url "https://github.com/basefoundry/base/archive/refs/tags/v1.9.0.tar.gz"
+  sha256 "75edf9cb017ab444c22de67872bacb5b9e1527a719750a7c08a5f168506d729f"
+  license "Apache-2.0"
   head "https://github.com/basefoundry/base.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/basefoundry/homebrew-base/releases/download/base-v1.8.0"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "ffaeaf8840fd2eb4ac798ee247ea1c5a05e95c14e81bdcdfccdd3fd1790ba62c"
-    sha256 cellar: :any_skip_relocation, sequoia:       "26975bd77fc6025a0e5fa9d15c2eba76d088d46a6f33970f82e9e3d1193aea55"
-  end
 
   depends_on "base-bash-libs"
   depends_on "bash"
