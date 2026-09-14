@@ -44,9 +44,12 @@ brew test basefoundry/base/base-bash-libs
 brew audit --new --formula Formula/base.rb
 ```
 
-The stable formula installs Base from a versioned release archive. The formula's
-`head` stanza remains available for local development against Base's `main`
-branch.
+The stable formula installs Base v1.9.0 from its versioned release archive and
+uses Base's Apache-2.0 license boundary. The formula's `head` stanza remains
+available for local development against Base's `main` branch. This release
+update intentionally removes the v1.8.0 bottle stanza; run the bottle workflow
+from this release branch to publish v1.9.0 bottles before advertising the
+`--force-bottle` install path.
 
 ## Build Bottles
 
